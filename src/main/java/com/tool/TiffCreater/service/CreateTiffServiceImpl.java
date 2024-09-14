@@ -28,6 +28,9 @@ public class CreateTiffServiceImpl implements CreateTiffService {
     /** tiff変換後のファイル格納先パス */
     private static final String RESULT_DIR = "src/main/resources/output";
 
+    /**
+     * {@inheritDoc}
+     */
     public void convertPdfToTiff() throws IOException {
 
         // フォルダ内のファイルを読み込む
@@ -35,6 +38,11 @@ public class CreateTiffServiceImpl implements CreateTiffService {
         readFiles.forEach(this::convertSingleToTiff);
     }
 
+    /**
+     * pdfファイルをtiffに変換
+     *
+     * @param pdfFilePath 変換するpdfファイルのパス
+     */
     private void convertSingleToTiff(String pdfFilePath) {
         try (PDDocument document = PDDocument.load(new File(pdfFilePath))) {
             PDFRenderer renderer = new PDFRenderer(document);
@@ -50,6 +58,13 @@ public class CreateTiffServiceImpl implements CreateTiffService {
         }
     }
 
+    /**
+     * pdfファイルのパスとページ番号に基づいて、tiffファイルのパスを生成
+     *
+     * @param pdfFilePath 変換するpdfファイルのパス
+     * @param pageIndex pdfファイル内のページ番号
+     * @return 生成されたtiffファイルのパス
+     */
     private String generateTiffFilePath(String pdfFilePath, int pageIndex) {
         Path pdfPath = Paths.get(pdfFilePath);
         String fileName = pdfPath.getFileName().toString().replace(".pdf", "_page" + (pageIndex + 1) + ".tiff");
@@ -60,7 +75,6 @@ public class CreateTiffServiceImpl implements CreateTiffService {
      * フォルダ内のすべてのpdfファイルを読み込む
      *
      * @return 読み込まれたすべてのファイル
-     * @throws IOException
      */
     private List<String> readAllFiles() throws IOException {
         return Files.walk(Paths.get(TARGET_DIR))

@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 
+/**
+ * tiff変換処理の実行クラス
+ */
 @SpringBootApplication
 public class TiffCreaterApplication implements CommandLineRunner {
 
